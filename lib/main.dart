@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 
 import 'dart:io';
-import 'view/camera.dart';
+import 'view/index.dart';
 
 List<CameraDescription> cameras;
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(cameras),
+      home: IndexPage(cameras),
     );
   }
 }

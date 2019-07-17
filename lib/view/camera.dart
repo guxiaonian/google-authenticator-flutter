@@ -1,43 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
 import 'scan.dart';
 import 'dart:ui';
 import 'line.dart';
+import 'channel.dart';
+import 'utils.dart';
 
-class MyHomePage extends StatefulWidget {
+class CameraPage extends StatefulWidget {
   final List<CameraDescription> cameras;
 
-  MyHomePage(this.cameras);
+  CameraPage(this.cameras);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CameraPageState createState() => _CameraPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _CameraPageState extends State<CameraPage> {
   CameraController controller;
   bool isDetecting = false;
-  static const platform = const MethodChannel("fairy.e.validator/qrcode");
   var mWidth, mHeight;
 
   void _sendToNativeOfData(var bytes) {
-    Future<String> future = platform.invokeMethod("imageStream", {
-      "cameraBytes": bytes,
-      "width": mWidth,
-      "height": mHeight,
-    });
-    future.then((message) {
+    Channel.loadImageBytes(
+            bytes: bytes, imageWidth: mWidth, imageHeight: mHeight)
+        .then((message) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
-        if (message == "500") {
+        if (message == null) {
           setState(() {
             isDetecting = false;
           });
         } else {
-          print(message);
-          _return();
+          _return(message);
         }
       });
     }).catchError((error) {
+      if (!mounted) {
+        return;
+      }
       print(error);
       setState(() {
         isDetecting = false;
@@ -52,7 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
       print('No camera is found');
       return;
     }
-    controller = CameraController(widget.cameras[0], ResolutionPreset.high,enableAudio: false);
+    controller = CameraController(widget.cameras[0], ResolutionPreset.high,
+        enableAudio: false);
     if (controller == null) {
       print('No CameraController is found');
       return;
@@ -65,8 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
       controller.startImageStream((CameraImage img) {
         if (!isDetecting) {
           isDetecting = true;
-          mWidth=img.width;
-          mHeight=img.height;
+          mWidth = img.width;
+          mHeight = img.height;
           var cameraBytes = img.planes.map((plane) {
             return plane.bytes;
           }).toList();
@@ -82,8 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  _return() {
-    Navigator.pop(context);
+  _return(var message) {
+    Navigator.pop(context, message);
   }
 
   @override
@@ -91,9 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
     if (!controller.value.isInitialized) {
       return Container();
     }
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
-    var leadHeight = MediaQuery.of(context).padding.top;
+    var width = Utils.getScreenWidth(context);
+    var height = Utils.getScreenHeight(context);
+    var leadHeight =Utils.getSysStatsHeight(context);
     var topHeight = (height - 200) / 2;
     var leftWidth = (width - 200) / 2;
 
@@ -130,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     top: leadHeight + 12,
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onTap: _return,
+                      onTap: () => {Navigator.pop(context)},
                       child: Icon(Icons.keyboard_arrow_left, size: 36),
                     ),
                   ),

@@ -20,6 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
   camera: 0.5.2+1
+  crypto: ^2.0.6
+  sqflite: ^1.1.6
 
 
   # The following adds the Cupertino Icons font to your application.
