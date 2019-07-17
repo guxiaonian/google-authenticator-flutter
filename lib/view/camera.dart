@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'scan.dart';
 import 'dart:ui';
-import 'line.dart';
+import 'scan.dart';
 import 'channel.dart';
 import 'utils.dart';
 
@@ -112,10 +111,6 @@ class _CameraPageState extends State<CameraPage> {
         Align(
           alignment: FractionalOffset.center,
           child: ScanView(),
-        ),
-        Align(
-          alignment: FractionalOffset.center,
-          child: ScanLine(),
         ),
         Positioned(
             left: 0,

@@ -20,7 +20,8 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> implements ViewListener {
   List<OTP> data = [];
   OTPProvider otpProvider;
-  Timer _timer;
+
+//  Timer _timer;
   bool canTouch = true;
 
   @override
@@ -136,7 +137,7 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
           ListTile(
             contentPadding:
                 EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            trailing: data.isTotp ? _totpIcon() : _hotpIcon(),
+            trailing: data.isTotp ? _totpIcon() : _hotpIcon(data.id),
             title: Text(
               Utils.getNumber(data.secret, data.isTotp, data.period),
               style: styleNumber,
@@ -152,6 +153,8 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
       ),
     );
   }
+
+  Map<int, Timer> valueMap = Map();
 
   void _show(OTP data) {
     showDialog(
@@ -169,8 +172,8 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
                 new FlatButton(
                   child: new Text("确定"),
                   onPressed: () {
-                    int id=data.id;
-                    otpProvider.delete(id).then((result){
+                    int id = data.id;
+                    otpProvider.delete(id).then((result) {
                       print("开始遍历数据库");
                       _queryDb();
                       Navigator.of(context).pop();
@@ -183,11 +186,8 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
 
   void _hotpTap(OTP data) {
     print("点击");
-    if (canTouch && !data.isTotp) {
-      setState(() {
-        canTouch = false;
-      });
-      startCountdownTimer();
+    if (!valueMap.containsKey(data.id) && !data.isTotp) {
+      startCountdownTimer(data.id);
       int counter = int.parse(data.period) + 1;
       data.period = counter.toString();
       otpProvider.update(data).then((result) {
@@ -197,19 +197,22 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
     }
   }
 
-  void startCountdownTimer() {
-    _timer = Timer(new Duration(seconds: 5), () {
+  void startCountdownTimer(id) {
+    Timer timer = Timer(new Duration(seconds: 5), () {
       print("倒计时完成");
       setState(() {
-        canTouch = true;
+        valueMap.remove(id);
       });
+    });
+    setState(() {
+      valueMap[id] = timer;
     });
   }
 
-  Widget _hotpIcon() {
+  Widget _hotpIcon(id) {
     return Icon(
       Icons.refresh,
-      color: canTouch ? Colors.white60 : Colors.white10,
+      color: !valueMap.containsKey(id) ? Colors.white60 : Colors.white10,
       size: 24,
     );
   }
@@ -221,9 +224,7 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
   @override
   void dispose() {
     otpProvider?.close();
-    if (_timer != null) {
-      _timer.cancel();
-    }
+    valueMap.clear();
     super.dispose();
   }
 
