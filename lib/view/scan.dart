@@ -99,7 +99,7 @@ class LinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(LinePainter oldDelegate) {
+    return value!=oldDelegate.value;
   }
 }

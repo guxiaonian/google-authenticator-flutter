@@ -108,7 +108,7 @@ class TimerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(TimerPainter oldDelegate) {
+    return value!=oldDelegate.value;
   }
 }

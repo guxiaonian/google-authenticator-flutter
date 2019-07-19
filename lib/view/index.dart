@@ -21,9 +21,6 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
   List<OTP> data = [];
   OTPProvider otpProvider;
 
-//  Timer _timer;
-  bool canTouch = true;
-
   @override
   void initState() {
     super.initState();
