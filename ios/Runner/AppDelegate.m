@@ -18,7 +18,7 @@
     [channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
          NSLog(@"method=%@ \narguments = %@", call.method, call.arguments);
         if ([@"imageStream" isEqualToString:call.method]) {
-             NSLog(@"imageStreamddd");
+             NSLog(@"imageStream");
              result(call.method);
         } else {
             result(FlutterMethodNotImplemented);
