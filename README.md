@@ -306,7 +306,7 @@ Table of Contents
 
 ## 实现效果
 
-![](./img/authenticator.gif)
+[点击查看](https://github.com/guxiaonian/google-authenticator-flutter/blob/master/img/authenticator.gif)
 
 ## 扫码体验
 
