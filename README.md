@@ -2,6 +2,21 @@
 
 谷歌身份验证器Flutter版
 
+Table of Contents
+=================
+
+   * [介绍谷歌验证器](#介绍谷歌验证器)
+   * [步骤实现](#步骤实现)
+      * [摄像头的帧数据](#摄像头的帧数据)
+      * [自定义扫码界面](#自定义扫码界面)
+      * [获取二维码信息](#获取二维码信息)
+      * [获取数据并存储](#获取数据并存储)
+      * [获取校验值](#获取校验值)
+      * [页面展示](#页面展示)
+   * [实现效果](#实现效果)
+   * [扫码体验](#扫码体验)
+   * [亟待解决](#亟待解决)
+
 ## 介绍谷歌验证器
 
 最近公司使用项目管理gitlab的时候，使用到了两步验证器。所以借着这个机会熟悉一下flutter，就以谷歌身份验证器这个项目来进行实践。
@@ -291,11 +306,11 @@
 
 ## 实现效果
 
-![](https://github.com/guxiaonian/google-authenticator-flutter/blob/master/img/authenticator.gif)
+![](./img/authenticator.gif)
 
 ## 扫码体验
 
-![](https://github.com/guxiaonian/google-authenticator-flutter/blob/master/img/download.png)
+![](./img/download.png)
 
 ## 亟待解决
 
