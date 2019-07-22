@@ -193,6 +193,8 @@ Table of Contents
 
 * 算法获取
 
+使用开源算法库[crypto](https://pub.dev/packages/crypto)进行hmacSha1加密
+
 ```dart
  Uint8List keys = base32.decode(secret);
     var hmacSha1 = new Hmac(sha1, keys);
