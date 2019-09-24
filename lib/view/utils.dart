@@ -5,7 +5,8 @@ import 'package:crypto/crypto.dart';
 
 class Utils {
   static String getPath(String path, String issuer) {
-    return null == issuer ? path : issuer + " (" + path + ")";
+//    return null == issuer ? path : issuer + " (" + path + ")";
+    return path;
   }
 
   static String getNumber(String secret, bool isTotp, String counter) {

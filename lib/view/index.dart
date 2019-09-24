@@ -117,11 +117,12 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
   getItem(OTP data) {
     const styleNumber = TextStyle(
         color: Colors.white,
-        fontSize: 26.0,
+        fontWeight: FontWeight.bold,
+        fontSize: 30.0,
         decoration: TextDecoration.none,
-        letterSpacing: 2);
+        letterSpacing: 4);
     const styleSubtitle = TextStyle(
-        color: Colors.white60, fontSize: 16.0, decoration: TextDecoration.none);
+        color: Colors.white60, fontSize: 14.0, decoration: TextDecoration.none);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0.0),
@@ -133,7 +134,7 @@ class _IndexPageState extends State<IndexPage> implements ViewListener {
         children: <Widget>[
           ListTile(
             contentPadding:
-                EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
             trailing: data.isTotp ? _totpIcon() : _hotpIcon(data.id),
             title: Text(
               Utils.getNumber(data.secret, data.isTotp, data.period),
